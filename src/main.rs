@@ -1,7 +1,10 @@
-use std::env;
-use std::path::PathBuf;
+use std::io::{self, Read};
 
 fn main() {
-    let exe = env::current_exe().unwrap_or_else(|_| PathBuf::from(""));
-    println!("Hello from {}. I got {} arguments", exe.display(), env::args().len());
+    let mut file_contents = String::new();
+    io::stdin().read_to_string(&mut file_contents).expect("Failed to read from stdin");
+    let mut words: Vec<&str> = file_contents.trim().split('\n').collect();
+    words.sort();
+    let result = words.join("\n");
+    println!("{}", result);
 }
